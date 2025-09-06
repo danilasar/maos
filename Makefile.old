@@ -1,0 +1,64 @@
+# Makefile для EFI загрузчика под aarch64
+
+# Кросскомпилятор
+CROSS_COMPILE = aarch64-linux-gnu-
+CC = $(CROSS_COMPILE)gcc
+OBJCOPY = $(CROSS_COMPILE)objcopy
+LD = $(CROSS_COMPILE)ld
+
+# Флаги компилятора
+CFLAGS = -ffreestanding -fno-stack-protector -fpie \
+         -fshort-wchar -Wall -Wextra -std=c99 \
+         -fno-strict-aliasing -fno-merge-constants \
+         -fno-zero-initialized-in-bss -Os
+
+# Флаги линковщика
+LDFLAGS = -nostdlib -znocombreloc -pie -shared \
+          -Bsymbolic
+
+# Имена файлов
+TARGET = main
+SOURCE = main.c
+EFI_TARGET = $(TARGET).efi
+SO_TARGET = $(TARGET).so
+OBJ_TARGET = $(TARGET).o
+LDS_TARGET = efi.lds
+
+.PHONY: all clean info
+
+all: $(EFI_TARGET)
+
+# Компиляция в объектный файл
+$(OBJ_TARGET): $(SOURCE)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Линковка в shared object
+$(SO_TARGET): $(OBJ_TARGET) $(LDS_TARGET)
+	$(LD) $(LDFLAGS) -T $(LDS_TARGET) $< -o $@
+
+# Конвертация в EFI PE32+ формат
+$(EFI_TARGET): $(SO_TARGET)
+	$(OBJCOPY) -j .text -j .sdata -j .data -j .dynamic \
+	           -j .dynsym -j .rel -j .rela -j .reloc \
+		   -O pei-aarch64-little \
+	           --target=efi-app-aarch64 --subsystem=10 --file-alignment=512 --section-alignment=4096 $< $@
+
+clean:
+	rm -f *.o *.so *.efi
+
+install: $(EFI_TARGET)
+	mkdir -p /boot/efi/EFI/BOOT/
+	cp $(EFI_TARGET) /boot/efi/EFI/BOOT/BOOTAA64.EFI
+
+# Показать информацию о сгенерированном файле
+test: $(EFI_TARGET)
+	@echo "=== File type ==="
+	file $(EFI_TARGET)
+	@echo "=== Subsystem check ==="
+	xxd -s 0x5C -l 4 $(EFI_TARGET)
+	@echo "=== Entry point ==="
+	xxd -s 0x28 -l 4 $(EFI_TARGET)
+	@echo "=== Copy to test directory ==="
+	mkdir -p vm/efi_root/EFI/BOOT
+	cp $(EFI_TARGET) vm/efi_root/EFI/BOOT/
+	@echo "Ready for testing!"
