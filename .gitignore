@@ -1,2 +1,6 @@
-trash
-vm
+./trash
+./vm
+*.o
+*.elf
+*.so
+*.a
