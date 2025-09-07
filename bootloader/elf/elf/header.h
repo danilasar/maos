@@ -25,7 +25,7 @@
 #define EI_PAD          9   // Начало неиспользуемых байт (заполнение)
 #define EI_NIDENT       16  // Размер массива e_ident[]
 
-// "Магическое число" ELF. Первые 4 байта файла идентифицируют его как объектный файл ELF.
+// Магическое число объектного файла. Первые 4 байта файла идентифицируют его как файл ELF.
 #define ELFMAG0         0x7f        // e_ident[EI_MAG0]
 #define ELFMAG1         'E'         // e_ident[EI_MAG1]
 #define ELFMAG2         'L'         // e_ident[EI_MAG2]
