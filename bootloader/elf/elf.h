@@ -198,4 +198,4 @@ typedef unsigned long long Elf64_Sxword; // Длинное знаковое чи
  * Найти каждую из них можно по таблице заголовков секций, положение
  * и размер которой указывается в заголовке файла.
  */
-// TODO: #include "elf/sections.h"
+#include "elf/sections.h"
