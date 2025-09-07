@@ -6,7 +6,7 @@ TARGET = bootaa64.efi
 SRCS = $(wildcard *.c) uefi/crt_aarch64.c $(filter-out uefi/crt_%, $(wildcard uefi/*.c))
 # define your default compiler flags
 # CFLAGS = -pedantic -Wall -Wextra -Werror --ansi -O2
-CFLAGS = -std=c11
+CFLAGS = -std=c11 -I./elf
 # define your default linker flags
 #LDFLAGS =
 #LDFLAGS = -subsystem:efi_application

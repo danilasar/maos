@@ -1,4 +1,5 @@
 #include <uefi.h>
+#include <elf.h>
 
 /**
  * Classic Hello World example
