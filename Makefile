@@ -1,4 +1,5 @@
-ARCH=aarch64
+#ARCH=aarch64
+ARCH=riscv64
 .PHONY: all bootloader kernel install clean run
 all: bootloader kernel
 
@@ -8,14 +9,15 @@ bootloader:
 
 kernel:
 	@echo "Собираю ядро..."
-	$(MAKE) -C kernel ARCH=$(ARCH)
+	#$(MAKE) -C kernel ARCH=$(ARCH)
 
 install:
-	@cp bootloader/bootaa64.efi bin/boot/efi/EFI/BOOT/bootaa64.efi
+	@echo "Копирую загрузчик"
+	cp bootloader/bootriscv64.efi bin/fs/boot/efi/EFI/BOOT/BOOTRISCV64.EFI
 
 clean:
 	$(MAKE) -C bootloader ARCH=$(ARCH) clean
-	$(MAKE) -C kernel ARCH=$(ARCH) clean
+	#$(MAKE) -C kernel ARCH=$(ARCH) clean
 
 run:
 	cd bin && ./run.sh

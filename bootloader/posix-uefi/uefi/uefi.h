@@ -74,6 +74,7 @@ typedef uint8_t  boolean_t;
 typedef uint16_t wchar_t;
 #endif
 typedef uint64_t uintn_t;
+// TODO: typedef uint64_t size_t;
 typedef uint64_t size_t;
 typedef uint64_t time_t;
 typedef uint64_t mode_t;

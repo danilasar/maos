@@ -3,6 +3,8 @@ OUTPUT_ARCH(riscv)
 ENTRY(_start)
 SECTIONS
 {
+  . = 0;
+  ImageBase = .;
   .text 0x0 : {
     _text = .;
     *(.text.head)
@@ -15,7 +17,7 @@ SECTIONS
   }
   _etext = .;
   _text_size = . - _text;
-  .dynamic  : { *(.dynamic) }
+  .dynamic  : { _DYNAMIC = .; *(.dynamic) }
   .data : ALIGN(4096)
   {
    _data = .;
@@ -62,3 +64,4 @@ SECTIONS
   }
   .comment 0 : { *(.comment) }
 }
+

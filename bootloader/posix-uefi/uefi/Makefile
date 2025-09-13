@@ -33,7 +33,12 @@ ifeq ($(ARCH),x86_64)
 CFLAGS += -maccumulate-outgoing-args
 endif
 CFLAGS += -Wno-builtin-declaration-mismatch -fpic -fPIC
-LDFLAGS += -nostdlib -shared -Bsymbolic -Luefi uefi/crt_$(ARCH).o
+LDFLAGS += -nostdlib -shared -Bsymbolic -Luefi uefi/crt_$(ARCH).o # если что убрать -shared
+#ifeq ($(USE_GCC),riscv64)
+#LDFLAGS += -shared
+#else
+#LDFLAGS  += -pie
+#endif
 LIBS += -o $(addprefix $(OUTDIR),$(TARGET).so) -luefi -T uefi/elf_$(ARCH)_efi.lds
 # see if we're cross-compiling
 ifneq ($(ARCH),$(MYARCH))
@@ -50,6 +55,7 @@ EFIARCH = pei-aarch64-little
 else
 ifeq ($(ARCH),riscv64)
 EFIARCH = pei-riscv64-little
+# LD = $(ARCH)-elf-gcc
 else
 EFIARCH = efi-app-$(ARCH)
 endif
