@@ -1,13 +1,12 @@
-#include <uefi.h>
-#include <elf.h>
+#include <efi.h>
+#include <efilib.h>
 
-/**
- * Classic Hello World example
- */
-int main(int argc, char **argv)
+EFI_STATUS
+EFIAPI
+efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 {
-	(void)argc;
-	(void)argv;
-	printf("Hello World!\n");
-	return 0;
+	//InitializeLib(ImageHandle, SystemTable);
+	//Print(L"Hello, world!\n");
+	return EFI_SUCCESS;
 }
+

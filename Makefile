@@ -13,7 +13,7 @@ kernel:
 
 install:
 	@echo "Копирую загрузчик"
-	cp bootloader/bootriscv64.efi bin/fs/boot/efi/EFI/BOOT/BOOTRISCV64.EFI
+	cp bootloader/main.efi bin/fs/boot/efi/EFI/BOOT/BOOTRISCV64.EFI
 
 clean:
 	$(MAKE) -C bootloader ARCH=$(ARCH) clean

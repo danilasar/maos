@@ -1,6 +1,6 @@
 [submodule "gnu-efi"]
 	path = gnu-efi
-	url = https://git.code.sf.net/p/gnu-efi/code
+	url = git@github.com:danilasar/gnu-efi.git
 [submodule "bootloader/gnu-efi"]
 	path = bootloader/gnu-efi
 	url = https://git.code.sf.net/p/gnu-efi/code
